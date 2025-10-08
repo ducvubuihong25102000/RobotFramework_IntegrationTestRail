@@ -1,0 +1,17 @@
+name: Hello World (Self-Hosted Windows)
+
+on:
+  workflow_dispatch:   # allows manual or API trigger
+    inputs:
+      message:
+        description: "Message to print"
+        required: false
+        default: "hello world"
+
+jobs:
+  say_hello:
+    name: Say Hello
+    runs-on: [self-hosted, Windows, X64]   # matches your self-hosted runner labels
+    steps:
+      - name: Print message
+        run: echo "${{ github.event.inputs.message }}"
