@@ -1,0 +1,8 @@
+﻿Tag,Test suite,Path
+TC_137,demo,.tests\demo.robot
+TC_sample_1,demo,tests\demo.robot
+TC_sample_2,demo,tests\demo.robot
+TC_sample_4,demo,.tests\demo.robot
+TC_sample_6,suite_1,tests\suite_1.robot
+TC_sample_12,suite_1,tests\suite_1.robot
+TC_sample_22,suite_1,tests\suite_1.robot
