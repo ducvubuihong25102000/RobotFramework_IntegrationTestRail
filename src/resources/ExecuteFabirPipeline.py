@@ -20,8 +20,12 @@ class ExecuteFabirPipeline:
         return token.token
     
     def execute_job(self, access_token, workspace, job_name):
-        # workspace_id = os.getenv(workspace)
-        # pipeline_id = os.getenv(job_name)
+        print(workspace)
+        print(job_name)
+        workspace_id = os.getenv(workspace)
+        pipeline_id = os.getenv(job_name)
+        print(workspace)
+        print(pipeline_id)
         workspace_id = "8461cf45-3dac-48a1-8c7c-c03b36238d8d"
         pipeline_id = "5ca86481-6870-4e3e-a10c-9c9f7ec12a1b"
 
