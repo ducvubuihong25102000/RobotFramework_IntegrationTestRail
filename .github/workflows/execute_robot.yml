@@ -14,8 +14,8 @@ jobs:
   test:
     runs-on: [self-hosted, Windows, X64]
     env:
-      WORKSPACE_ID: ${{ secrets.WORKSPACE_ID }}
-      DATA_PIPELINE_ID: ${{ secrets.DATA_PIPELINE_ID }}
+      WORKSPACE_ID: ${{ vars.WORKSPACE_ID }}
+      DATA_PIPELINE_ID: ${{ vars.DATA_PIPELINE_ID }}
 
     steps:
       - name: Checkout repository
@@ -36,8 +36,8 @@ jobs:
         shell: cmd
         run: |
           echo ------------------------------
-          echo WORKSPACE_ID=%WORKSPACE_ID%
-          echo DATA_PIPELINE_ID=%DATA_PIPELINE_ID%
+          echo WORKSPACE_ID=$WORKSPACE_ID
+          echo DATA_PIPELINE_ID=$DATA_PIPELINE_ID
           echo ------------------------------
           
       - name: Run Robot Framework tests
