@@ -1,0 +1,62 @@
+name: Run Robot Framework Tests (Windows Self-Hosted)
+
+on:
+  workflow_dispatch:
+    inputs:
+      message:
+        description: "Message to print"
+        required: false
+        default: "hello world"
+  # schedule:
+  #   - cron: '0 17 * * *'  # Run every day at 17:00 UTC (midnight VN time)
+
+jobs:
+  test:
+    runs-on: [self-hosted, Windows, X64]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        shell: cmd
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Robot Framework tests
+        shell: cmd
+        env:
+          WORK_TOKEN: ${{ secrets.GIT_TOKEN }}
+          TZ: Asia/Ho_Chi_Minh
+        run: |
+          Write-Host "Executing Robot Framework tests..."
+          try {
+              robot --include=TC_sample_22 --outputdir=src\results .\src\tests\suite_1.robot
+          } catch {
+              Write-Host "Initial test run failed. Attempting rerun for failed tests..."
+              if (Test-Path "src\results\output.xml") {
+                  robot --rerunfailed src\results\output.xml --outputdir src\results_rerun .\src\tests\suite_1.robot
+                  if (Test-Path "src\results_rerun\output.xml") {
+                      rebot --output src\results\output.xml --log src\results\log.html --report src\results\report.html --merge src\results\output.xml src\results_rerun\output.xml
+                  } else {
+                      Write-Host "No rerun output.xml found, skipping merge."
+                  }
+              } else {
+                  Write-Host "No initial output.xml found, cannot rerun failed tests."
+              }
+          }
+          Write-Host "Script execution completed"
+        continue-on-error: true
+
+      - name: Upload Robot Framework results
+        uses: actions/upload-artifact@v4
+        with:
+          name: robot-test-results
+          path: src/results
+          retention-days: 3
