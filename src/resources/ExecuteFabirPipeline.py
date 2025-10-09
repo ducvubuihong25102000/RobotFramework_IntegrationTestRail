@@ -20,8 +20,10 @@ class ExecuteFabirPipeline:
         return token.token
     
     def execute_job(self, access_token, workspace, job_name):
-        workspace_id = os.getenv(workspace)
-        pipeline_id = os.getenv(job_name)
+        # workspace_id = os.getenv(workspace)
+        # pipeline_id = os.getenv(job_name)
+        workspace_id = "8461cf45-3dac-48a1-8c7c-c03b36238d8d"
+        pipeline_id = "5ca86481-6870-4e3e-a10c-9c9f7ec12a1b"
 
         url = f"https://api.fabric.microsoft.com/v1/workspaces/{workspace_id}/items/{pipeline_id}/jobs/instances?jobType=Execute"
         headers = {
