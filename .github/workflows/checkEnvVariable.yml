@@ -1,4 +1,4 @@
-name: Run Robot Framework Tests (Windows Self-Hosted)
+name: Check Environment Variable
 
 on:
   workflow_dispatch:
