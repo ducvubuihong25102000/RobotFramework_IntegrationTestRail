@@ -1,8 +1,4 @@
 name: Check Environment Variable
-env:
-  WORKSPACE_ID: ${{ vars.WORKSPACE_ID }}
-  DATA_PIPELINE_ID: ${{ vars.DATA_PIPELINE_ID }}
-
 on:
   workflow_dispatch:
     inputs:
@@ -17,6 +13,9 @@ jobs:
   check_env_variable:
     runs-on: [self-hosted, Windows, X64]
     environment: DEV
+    env:
+      WORKSPACE_ID: ${{ vars.WORKSPACE_ID }}
+      DATA_PIPELINE_ID: ${{ vars.DATA_PIPELINE_ID }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -33,7 +32,7 @@ jobs:
           echo "DATA_PIPELINE_ID= $DATA_PIPELINE_ID"
           echo ------------------------------
           
-      - name: Run Robot Framework tests
+      - name: Run python script
         shell: cmd
         env:
           WORK_TOKEN: ${{ secrets.GIT_TOKEN }}
