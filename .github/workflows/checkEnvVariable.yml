@@ -32,4 +32,4 @@ jobs:
           WORK_TOKEN: ${{ secrets.GIT_TOKEN }}
           TZ: Asia/Ho_Chi_Minh
         run: |
-          pwd 
+          cd
