@@ -1,0 +1,35 @@
+name: Run Robot Framework Tests (Windows Self-Hosted)
+
+on:
+  workflow_dispatch:
+    inputs:
+      message:
+        description: "Message to print"
+        required: false
+        default: "hello world"
+  # schedule:
+  #   - cron: '0 17 * * *'  # Run every day at 17:00 UTC (midnight VN time)
+
+jobs:
+  check_env_variable:
+    runs-on: [self-hosted, Windows, X64]
+    env:
+      WORKSPACE_ID: ${{ vars.WORKSPACE_ID }}
+      DATA_PIPELINE_ID: ${{ vars.DATA_PIPELINE_ID }}
+
+    steps:
+      - name: Debug environment variables
+        shell: cmd
+        run: |
+          echo ------------------------------
+          echo "WORKSPACE_ID= $WORKSPACE_ID"
+          echo "DATA_PIPELINE_ID= $DATA_PIPELINE_ID"
+          echo ------------------------------
+          
+      - name: Run Robot Framework tests
+        shell: cmd
+        env:
+          WORK_TOKEN: ${{ secrets.GIT_TOKEN }}
+          TZ: Asia/Ho_Chi_Minh
+        run: |
+          pwd 
