@@ -27,6 +27,13 @@ jobs:
   check_env_variable:
     runs-on: [self-hosted, Windows, X64]
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
       - name: Debug environment variables
         shell: cmd
         run: |
