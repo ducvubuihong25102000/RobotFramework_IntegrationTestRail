@@ -14,18 +14,9 @@ on:
   #   - cron: '0 17 * * *'  # Run every day at 17:00 UTC (midnight VN time)
 
 jobs:
-  set_up_environment:
-    runs-on: [self-hosted, Windows, X64]
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.12'
   check_env_variable:
     runs-on: [self-hosted, Windows, X64]
+    environment: DEV
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
