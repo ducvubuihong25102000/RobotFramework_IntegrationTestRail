@@ -62,14 +62,14 @@ ${job_execution_url}
     ${status1}=    Set Variable If    ${src_rows} = 38    1    5
     ${actual1}=    Set Variable    Found ${src_rows} rows in query
     Run Keyword If    ${src_rows} == 38    Log    Row of [moved].[business_buyer] is 38 - Step Passed
-    ...    ELSE    Fail    Row of [moved].[business_buyer] is not 38 - Step Failed - Actual value: ${src_rows}
+    ...    ELSE    Run Keyword And Continue On Failure    Fail    Row of [moved].[business_buyer] is not 38 - Step Failed - Actual value: ${src_rows}
     
     # Step 3
     ${src_rows_1}=         FabricDB.Execute Fabric Query    ${QUERY_TC_1_1}
     ${status2}=    Set Variable If    ${src_rows} = 0    1    5
     ${actual2}=    Set Variable    Found ${src_rows} rows in query
     Run Keyword If    ${src_rows} == 0    Log    No business with country different USA - Step Passed
-    ...    ELSE    Fail    Exist business out of USA - Step Failed - Actual value: ${src_rows}
+    ...    ELSE    Run Keyword And Continue On Failure    Fail    Exist business out of USA - Step Failed - Actual value: ${src_rows}
 
     # Build step results for TestRail
     ${step_results}=    Create List
@@ -89,14 +89,14 @@ ${job_execution_url}
     ${status1}=    Set Variable If    ${src_rows} = 12    1    5
     ${actual1}=    Set Variable    Found ${src_rows} rows in query
     Run Keyword If    ${src_rows} == 12    Log    Row of [moved].[business_not_buyer] is 12 - Step Passed
-    ...    ELSE    Fail    [moved].[business_not_buyer] is not 12 - Step Failed - Actual value: ${src_rows}
+    ...    ELSE  Run Keyword And Continue On Failure  Fail    [moved].[business_not_buyer] is not 12 - Step Failed - Actual value: ${src_rows}
     
     # Step 3
     ${src_rows_1}=         FabricDB.Execute Fabric Query    ${QUERY_TC_2}
     ${status2}=    Set Variable If    ${src_rows} = 0    1    5
     ${actual2}=    Set Variable    Found ${src_rows} rows in query
     Run Keyword If    ${src_rows} == 0    Log    No business with country different USA - Step Passed
-    ...    ELSE    Fail    Exist business out of USA - Step Failed - Actual value: ${src_rows}
+    ...    ELSE    Run Keyword And Continue On Failure    Fail    Exist business out of USA - Step Failed - Actual value: ${src_rows}
 
     # Build step results for TestRail
     ${step_results}=    Create List
