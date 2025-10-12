@@ -38,7 +38,9 @@ def test_load_csv():
     result = subprocess.run("cd", capture_output=True, text=True)
     print("STDOUT:", result.stdout)
     print("STDERR:", result.stderr)
-    # subprocess.run(["python ./src/resources/checkEnvVariable.py"], capture_output=True, text=True)
+    result = subprocess.run("python ./src/resources/checkEnvVariable.py", capture_output=True, text=True)
+    print("STDOUT:", result.stdout)
+    print("STDERR:", result.stderr)
     os.system("python ./src/resources/checkEnvVariable.py")
     if data.empty:
         print("No data found")
