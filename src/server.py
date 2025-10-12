@@ -68,8 +68,10 @@ if __name__ == "__main__":
 
     try:
         # tags = json.loads(sys.argv[1])
-        tags = eval(sys.argv[1])    
+        tags = eval(sys.argv[1])
+        print('$$$------------------------------$$$')    
         print(tags)
+        print(type(tags))
         if not isinstance(tags, list):
             raise ValueError("Tags input must be a JSON array string")
     except Exception as e:
