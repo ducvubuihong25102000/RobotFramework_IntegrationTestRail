@@ -38,4 +38,4 @@ jobs:
         run: |
           echo "Tags input: ${{ github.event.inputs.tags }}"
           # python .\src\server.py                   
-          python .\src\execute.py '${{ github.event.inputs.tags }}'
+          python .\src\server.py '${{ github.event.inputs.tags }}'
