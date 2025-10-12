@@ -36,6 +36,5 @@ jobs:
           WORK_TOKEN: ${{ secrets.GIT_TOKEN }}
           TZ: Asia/Ho_Chi_Minh
         run: |
-          echo "Tags input: ${{ github.event.inputs.tags }}"
-          # python .\src\server.py                   
+          echo "Tags input: ${{ github.event.inputs.tags }}"                  
           python .\src\server.py '${{ github.event.inputs.tags }}'
