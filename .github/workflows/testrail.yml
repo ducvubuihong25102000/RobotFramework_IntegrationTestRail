@@ -1,16 +1,14 @@
-name: Check run cmd by python
+name: Testrail to github action to robot
 on:
   workflow_dispatch:
     inputs:
-      message:
-        description: "Message to print"
-        required: false
-        default: "hello world"
-  # schedule:
-  #   - cron: '0 17 * * *'  # Run every day at 17:00 UTC (midnight VN time)
+      tags:
+        description: "List of TCs id in test run -> matching tags in robot"
+        required: true
+        default: '["TC_sample_12", "TC_sample_22"]'
 
 jobs:
-  check_run_cmd_by_python:
+  execute_robot_from_testrail:
     runs-on: [self-hosted, Windows, X64]
     environment: DEV
     env:
@@ -38,4 +36,6 @@ jobs:
           WORK_TOKEN: ${{ secrets.GIT_TOKEN }}
           TZ: Asia/Ho_Chi_Minh
         run: |
-          python .\src\server.py
+          echo "Tags input: ${{ github.event.inputs.tags }}"
+          # python .\src\server.py                   
+          python .\src\execute.py '${{ github.event.inputs.tags }}'
