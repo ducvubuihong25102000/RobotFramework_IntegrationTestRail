@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 import subprocess
 import pandas as pd
+import os
 
 app = Flask(__name__)
 
@@ -31,14 +32,17 @@ def run_tests():
     })
 
 def test_load_csv():
-    df = pd.read_csv("../TestsStructure.csv")
+    # cmd path of runner -> git repo (which contains TestsStructure.csv and src folder)
+    df = pd.read_csv("./TestsStructure.csv")
     data = df.loc[df['Tag'] == 'TC_sample_1', 'Path']
     if data.empty:
         print("No data found")
     else:
         print(type(data.iloc[0]))
         print(data.iloc[0])
+        subprocess.run("python ./src/resources/checkEnvVariable.py", capture_output=True, text=True)
+        os.system("python ./src/resources/checkEnvVariable.py")
 
 if __name__ == "__main__":
-    app.run(port=5000)
-    # test_load_csv()
+    # app.run(port=5000)
+    test_load_csv()
