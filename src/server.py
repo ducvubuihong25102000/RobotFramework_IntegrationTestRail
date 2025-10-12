@@ -59,13 +59,16 @@ def execute_robot(tags):
 
 if __name__ == "__main__":
     # app.run(port=5000)
+    print('--------------------------------')
     print(sys.argv)
+    print('#------------------------------#')
     if len(sys.argv) < 2:
         print("Usage: python execute.py '[\"TC_tag1\", \"TC_tag2\"]'")
         sys.exit(1)
 
     try:
         tags = json.loads(sys.argv[1])
+        print(tags)
         if not isinstance(tags, list):
             raise ValueError("Tags input must be a JSON array string")
     except Exception as e:
