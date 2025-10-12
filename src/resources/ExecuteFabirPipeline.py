@@ -27,9 +27,9 @@ class ExecuteFabirPipeline:
         pipeline_id = os.getenv(job_name)
         print(workspace_id)
         print(pipeline_id)
-        print("---------------------------------------------------")
-        workspace_id = "8461cf45-3dac-48a1-8c7c-c03b36238d8d"
-        pipeline_id = "5ca86481-6870-4e3e-a10c-9c9f7ec12a1b"
+        # print("---------------------------------------------------")
+        # workspace_id = "8461cf45-3dac-48a1-8c7c-c03b36238d8d"
+        # pipeline_id = "5ca86481-6870-4e3e-a10c-9c9f7ec12a1b"
         
         print(workspace_id)
         print(pipeline_id)
