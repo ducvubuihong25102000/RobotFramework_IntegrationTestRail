@@ -70,7 +70,7 @@ if __name__ == "__main__":
         tags = sys.argv[1].strip("'[]")
         normalize_tags = tags.split(',')
         if isinstance(normalize_tags, list):
-            execute_robot(tags)
+            execute_robot(normalize_tags)
         else:
             raise ValueError("Tags input must be a JSON array string")
     except Exception as e:
