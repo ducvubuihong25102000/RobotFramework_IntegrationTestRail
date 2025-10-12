@@ -14,6 +14,7 @@ jobs:
     env:
       WORKSPACE_ID: ${{ vars.WORKSPACE_ID }}
       DATA_PIPELINE_ID: ${{ vars.DATA_PIPELINE_ID }}
+      TESTRAIL_URL: ${{ vars.TESTRAIL_URL }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
