@@ -67,12 +67,16 @@ if __name__ == "__main__":
         sys.exit(1)
 
     try:
-        tags = json.loads(sys.argv[1])
+        tags = sys.argv[1].strip("'[]")
+        normalize_tags = tags.split(',')
+        
         # tags = eval(sys.argv[1])
         print('$$$------------------------------$$$')    
         print(tags)
         print(type(tags))
-        if not isinstance(tags, list):
+        print(normalize_tags)
+        print(type(normalize_tags))
+        if not isinstance(normalize_tags, list):
             raise ValueError("Tags input must be a JSON array string")
     except Exception as e:
         print(f"Invalid tags input: {e}")
