@@ -59,6 +59,7 @@ def execute_robot(tags):
 
 if __name__ == "__main__":
     # app.run(port=5000)
+    print(sys.argv)
     if len(sys.argv) < 2:
         print("Usage: python execute.py '[\"TC_tag1\", \"TC_tag2\"]'")
         sys.exit(1)
