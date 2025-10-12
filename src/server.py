@@ -3,6 +3,7 @@ import subprocess
 import pandas as pd
 import os
 import sys
+import json
 
 app = Flask(__name__)
 
@@ -60,7 +61,12 @@ if __name__ == "__main__":
     # app.run(port=5000)
     if len(sys.argv) < 2:
         print("Usage: python execute.py '[\"TC_tag1\", \"TC_tag2\"]'")
-    sys.exit(1)
+        sys.exit(1)
 
-    tags = json.loads(sys.argv[1])
-    exit(run_tests(tags))
+    try:
+        tags = json.loads(sys.argv[1])
+        if not isinstance(tags, list):
+            raise ValueError("Tags input must be a JSON array string")
+    except Exception as e:
+        print(f"Invalid tags input: {e}")
+        sys.exit(1)
