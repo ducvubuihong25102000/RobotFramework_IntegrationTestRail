@@ -35,6 +35,7 @@ def test_load_csv():
     # cmd path of runner -> git repo (which contains TestsStructure.csv and src folder)
     df = pd.read_csv("./TestsStructure.csv")
     data = df.loc[df['Tag'] == 'TC_sample_1', 'Path']
+    subprocess.run(["python ./src/resources/checkEnvVariable.py"], capture_output=True, text=True)
     os.system("python ./src/resources/checkEnvVariable.py")
     if data.empty:
         print("No data found")
