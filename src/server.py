@@ -69,14 +69,9 @@ if __name__ == "__main__":
     try:
         tags = sys.argv[1].strip("'[]")
         normalize_tags = tags.split(',')
-        
-        # tags = eval(sys.argv[1])
-        print('$$$------------------------------$$$')    
-        print(tags)
-        print(type(tags))
-        print(normalize_tags)
-        print(type(normalize_tags))
-        if not isinstance(normalize_tags, list):
+        if isinstance(normalize_tags, list):
+            execute_robot(tags)
+        else:
             raise ValueError("Tags input must be a JSON array string")
     except Exception as e:
         print(f"Invalid tags input: {e}")
