@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-TESTRAIL_URL = os.getenv("testrail_url") 
+TESTRAIL_URL = os.getenv("TESTRAIL_URL") 
 USERNAME = os.getenv("tr_usr")
 PASSWORD = os.getenv("tr_pwd")
 PROJECT_ID = 1

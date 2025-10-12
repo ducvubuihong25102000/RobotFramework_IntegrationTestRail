@@ -45,6 +45,7 @@ ${DB_DRIVER}    MySQL ODBC 9.4 Unicode Driver
 ${QUERY_TC_1}    SELECT * FROM moved.business_buyer
 ${QUERY_TC_1_1}    SELECT * FROM [moved].[business_buyer] WHERE [moved].[business_buyer].[country] <> 'USA'
 ${QUERY_TC_2}    SELECT * FROM moved.business_not_buyer
+${QUERY_TC_2_1}    SELECT * FROM [moved].[business_buyer] WHERE [moved].[business_not_buyer].[country] <> 'USA'
 ${SQL_ENDPOINT}    bkjr54bowwyufnypvcecwxiehm-ixhwdbfmhwqurdd4ya5tmi4nru.datawarehouse.fabric.microsoft.com
 ${DBNAME}          destination
 ${token}
@@ -92,7 +93,7 @@ ${job_execution_url}
     ...    ELSE  Run Keyword And Continue On Failure  Fail    [moved].[business_not_buyer] is not 12 - Step Failed - Actual value: ${src_rows}
     
     # Step 3
-    ${src_rows_1}=         FabricDB.Execute Fabric Query    ${QUERY_TC_2}
+    ${src_rows_1}=         FabricDB.Execute Fabric Query    ${QUERY_TC_2_1}
     ${status2}=    Set Variable If    ${src_rows} == 0    1    5
     ${actual2}=    Set Variable    Found ${src_rows} rows in query
     Run Keyword If    ${src_rows} == 0    Log    No business with country different USA - Step Passed
