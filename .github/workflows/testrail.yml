@@ -37,4 +37,4 @@ jobs:
           TZ: Asia/Ho_Chi_Minh
         run: |
           echo "Tags input: ${{ github.event.inputs.tags }}"                  
-          python .\src\server.py '${{ github.event.inputs.tags }}'
+          python .\src\server.py "${{ github.event.inputs.tags }}"
