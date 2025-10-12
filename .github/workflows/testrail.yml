@@ -22,7 +22,7 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.12'
-      - name: Debug environment variables
+      - name: Check environment variables
         shell: cmd
         run: |
           echo ------------------------------
@@ -30,7 +30,7 @@ jobs:
           echo "DATA_PIPELINE_ID= $DATA_PIPELINE_ID"
           echo ------------------------------
           
-      - name: Run python script
+      - name: Execute Robot
         shell: cmd
         env:
           WORK_TOKEN: ${{ secrets.GIT_TOKEN }}
@@ -38,3 +38,10 @@ jobs:
         run: |
           echo "Tags input: ${{ github.event.inputs.tags }}"                  
           python .\src\server.py '${{ github.event.inputs.tags }}'
+          
+      - name: Upload Robot Framework results
+        uses: actions/upload-artifact@v4
+        with:
+          name: robot-test-results
+          path: src/results
+          retention-days: 3
