@@ -10,7 +10,7 @@ on:
   #   - cron: '0 17 * * *'  # Run every day at 17:00 UTC (midnight VN time)
 
 jobs:
-  check_env_variable:
+  check_run_cmd_by_python:
     runs-on: [self-hosted, Windows, X64]
     environment: DEV
     env:
