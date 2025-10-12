@@ -47,12 +47,12 @@ def execute_robot(tags):
     for tag in tags:
         ts_path = df.loc[df['Tag'] == tag, 'Path']
         if not ts_path.empty:
-            cmd += "--inclue=" + tag + " "
+            cmd += "--include=" + tag + " "
             if ts_path.iloc[0] not in test_suite_path:
-                test_suite_path.append(".\src\\" + ts_path.iloc[0])
+                test_suite_path.append(ts_path.iloc[0])
     
     for path in test_suite_path:
-        cmd += " " + path
+        cmd += " " + ".\src\\" + path
     
     print(cmd)
     os.system(cmd)
