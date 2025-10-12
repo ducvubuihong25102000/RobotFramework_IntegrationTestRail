@@ -67,7 +67,8 @@ if __name__ == "__main__":
         sys.exit(1)
 
     try:
-        tags = json.loads(sys.argv[1])
+        # tags = json.loads(sys.argv[1])
+        tags = eval(sys.argv[1])    
         print(tags)
         if not isinstance(tags, list):
             raise ValueError("Tags input must be a JSON array string")
