@@ -10,7 +10,7 @@ TESTRAIL_URL = os.getenv("TESTRAIL_URL")
 USERNAME = os.getenv("tr_usr")
 PASSWORD = os.getenv("tr_pwd")
 PROJECT_ID = 1
-RUN_ID = 1
+RUN_ID = 3
 
 print("Credentials for TestRail:")   
 print(USERNAME)
