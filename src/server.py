@@ -67,8 +67,8 @@ if __name__ == "__main__":
         sys.exit(1)
 
     try:
-        # tags = json.loads(sys.argv[1])
-        tags = eval(sys.argv[1])
+        tags = json.loads(sys.argv[1])
+        # tags = eval(sys.argv[1])
         print('$$$------------------------------$$$')    
         print(tags)
         print(type(tags))
