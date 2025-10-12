@@ -1,0 +1,41 @@
+name: Check run cmd by python
+on:
+  workflow_dispatch:
+    inputs:
+      message:
+        description: "Message to print"
+        required: false
+        default: "hello world"
+  # schedule:
+  #   - cron: '0 17 * * *'  # Run every day at 17:00 UTC (midnight VN time)
+
+jobs:
+  check_env_variable:
+    runs-on: [self-hosted, Windows, X64]
+    environment: DEV
+    env:
+      WORKSPACE_ID: ${{ vars.WORKSPACE_ID }}
+      DATA_PIPELINE_ID: ${{ vars.DATA_PIPELINE_ID }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+      - name: Debug environment variables
+        shell: cmd
+        run: |
+          echo ------------------------------
+          echo "WORKSPACE_ID= $WORKSPACE_ID"
+          echo "DATA_PIPELINE_ID= $DATA_PIPELINE_ID"
+          echo ------------------------------
+          
+      - name: Run python script
+        shell: cmd
+        env:
+          WORK_TOKEN: ${{ secrets.GIT_TOKEN }}
+          TZ: Asia/Ho_Chi_Minh
+        run: |
+          python .\src\server.py
