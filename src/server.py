@@ -43,7 +43,7 @@ def execute_robot(tags):
  
     df = pd.read_csv("./TestsStructure.csv")   
     test_suite_path = []
-    cmd = "robot --outputdir=/src/results "
+    cmd = "robot --outputdir=.\\src\\results "
     for tag in tags:
         ts_path = df.loc[df['Tag'] == tag, 'Path']
         if not ts_path.empty:
@@ -52,7 +52,7 @@ def execute_robot(tags):
                 test_suite_path.append(ts_path.iloc[0])
     
     for path in test_suite_path:
-        cmd += " " + ".\src\\" + path
+        cmd += " " + ".\\src\\" + path
     
     print(cmd)
     os.system(cmd)

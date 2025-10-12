@@ -1,5 +1,6 @@
 *** Settings ***
 Library   DatabaseLibrary
+Library    ../resources/testrail_keywords.py
 Library    ../resources/FabricDBConnector.py    WITH NAME    FabricDB
 Library    ../resources/ExecuteFabirPipeline.py    WITH NAME    ExecutePipeline
 
@@ -42,6 +43,7 @@ ${USER}     admin
 ${PASSWORD}  admin
 ${DB_DRIVER}    MySQL ODBC 9.4 Unicode Driver
 ${QUERY_TC_1}    SELECT * FROM moved.business_buyer
+${QUERY_TC_1_1}    SELECT * FROM [moved].[business_buyer] WHERE [moved].[business_buyer].[country] <> 'USA'
 ${QUERY_TC_2}    SELECT * FROM moved.business_not_buyer
 ${SQL_ENDPOINT}    bkjr54bowwyufnypvcecwxiehm-ixhwdbfmhwqurdd4ya5tmi4nru.datawarehouse.fabric.microsoft.com
 ${DBNAME}          destination
@@ -53,19 +55,52 @@ ${job_execution_url}
 1. [demo->destination] migration business buyer
     [Tags]    TC_139
     Comment   Verify data migration from demo to destination with condition is_buyer = 1 - pipeline 10102025_demo
-    # FabricDB.Connect With Aad    ${SQL_ENDPOINT}    ${DBNAME}
+    # Step 1. Execute pipeline
 
+    # Step 2
     ${src_rows}=         FabricDB.Execute Fabric Query    ${QUERY_TC_1}
-    Run Keyword If    ${src_rows} == 38    Log    Row of demo.business_buyer is 38 - Step Passed
-    ...    ELSE    Fail    Row of demo.business is not 38 - Step Failed - Actual value: ${src_rows}
+    ${status1}=    Set Variable If    ${src_rows} = 38    1    5
+    ${actual1}=    Set Variable    Found ${src_rows} rows in query
+    Run Keyword If    ${src_rows} == 38    Log    Row of [moved].[business_buyer] is 38 - Step Passed
+    ...    ELSE    Fail    Row of [moved].[business_buyer] is not 38 - Step Failed - Actual value: ${src_rows}
+    
+    # Step 3
+    ${src_rows_1}=         FabricDB.Execute Fabric Query    ${QUERY_TC_1_1}
+    ${status2}=    Set Variable If    ${src_rows} = 0    1    5
+    ${actual2}=    Set Variable    Found ${src_rows} rows in query
+    Run Keyword If    ${src_rows} == 0    Log    No business with country different USA - Step Passed
+    ...    ELSE    Fail    Exist business out of USA - Step Failed - Actual value: ${src_rows}
+
+    # Build step results for TestRail
+    ${step_results}=    Create List
+    ...    {"content": "Execute pipeline: 10102025_demo", "expected": "10102025_demo is executed successfully", "actual": "execute successfully", "status_id": 1}
+    ...    {"content": "Data from [demo].[business] is migrated only buyer into [moved].[business_buyer] ", "expected": "All rows in [moved].[business_buyer] with condition:- [is_buyer] = 1- [country] = USA", "actual": "${actual1}", "status_id": ${status1}}
+    ...    {"content": "SELECT COUNT(*) FROM [moved].[business_buyer] WHERE [moved].[business_buyer].[country] <> 'USA'", "expected": "rows = 0", "actual": "${actual2}", "status_id": ${status2}}
+
+    Update Testrail Step Result    139    ${step_results}
 
 
 2. [demo->destination] migration business not buyer
     [Tags]    TC_140
     Comment   Verify data migration from demo to destination with condition is_buyer = 0 - pipeline 10102025_demo
+    # Step 1. Execute pipeline
+    # Step 2
+    ${src_rows}=         FabricDB.Execute Fabric Query    ${QUERY_TC_2}
+    ${status1}=    Set Variable If    ${src_rows} = 12    1    5
+    ${actual1}=    Set Variable    Found ${src_rows} rows in query
+    Run Keyword If    ${src_rows} == 12    Log    Row of [moved].[business_not_buyer] is 12 - Step Passed
+    ...    ELSE    Fail    [moved].[business_not_buyer] is not 12 - Step Failed - Actual value: ${src_rows}
+    
+    # Step 3
+    ${src_rows_1}=         FabricDB.Execute Fabric Query    ${QUERY_TC_2}
+    ${status2}=    Set Variable If    ${src_rows} = 0    1    5
+    ${actual2}=    Set Variable    Found ${src_rows} rows in query
+    Run Keyword If    ${src_rows} == 0    Log    No business with country different USA - Step Passed
+    ...    ELSE    Fail    Exist business out of USA - Step Failed - Actual value: ${src_rows}
 
-    # FabricDB.Connect With Aad    ${SQL_ENDPOINT}    ${DBNAME}
-
-    ${rows}=         FabricDB.Execute Fabric Query    ${QUERY_TC_2}
-    Run Keyword If    ${rows} == 12    Log    Row of demo.business_not_buyer is 12 - Step Passed
-    ...    ELSE    Fail    Row of demo.business_not_buyer is not 12 - Step Failed - Actual value: ${rows}
+    # Build step results for TestRail
+    ${step_results}=    Create List
+    ...    {"content": "Execute pipeline: 10102025_demo", "expected": "10102025_demo is executed successfully", "actual": "execute successfully", "status_id": 1}
+    ...    {"content": "Data from [demo].[business] is migrated only not buyer into [moved].[business_not_buyer] ", "expected": "All rows in [moved].[business_buyer] with condition:- [is_buyer] = 0 - [country] = USA", "actual": "${actual1}", "status_id": ${status1}}
+    ...    {"content": "SELECT COUNT(*) FROM [moved].[business_not_buyer] WHERE [moved].[business_buyer].[country] <> 'USA'", "expected": "rows = 0", "actual": "${actual2}", "status_id": ${status2}}
+    Update Testrail Step Result    140    ${step_results}
