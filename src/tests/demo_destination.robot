@@ -76,7 +76,7 @@ ${job_execution_url}
     ${src_rows}=         FabricDB_tgt.Execute Fabric Query    ${QUERY_TC_1}
     ${status1}=    Set Variable If    ${src_rows} == ${expected}    1    5
     ${actual1}=    Set Variable    Found ${src_rows} rows in query
-    Run Keyword If    ${src_rows} ==   ${expected}   Log    Row of [moved].[business_buyer] is ${expected}  - Step Passed
+    Run Keyword If    ${src_rows} == ${expected}   Log    Row of [moved].[business_buyer] is ${expected}  - Step Passed
     ...    ELSE    Run Keyword And Continue On Failure    Fail    Row of [moved].[business_buyer] is not ${expected}  - Step Failed - Actual value: ${src_rows}
     
     # Step 3
