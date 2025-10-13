@@ -9,11 +9,14 @@ on:
       test_run_id:
         description: "ID of test run to used in "
         required: true
+      env:
+        description: "Environment to execute automation"
+        required: true
 
 jobs:
   execute_robot_from_testrail:
     runs-on: [self-hosted, Windows, X64]
-    environment: DEV
+    environment: ${{ github.event.inputs.env }}
     env:
       WORKSPACE_ID: ${{ vars.WORKSPACE_ID }}
       DATA_PIPELINE_ID: ${{ vars.DATA_PIPELINE_ID }}
