@@ -81,9 +81,9 @@ ${job_execution_url}
     
     # Step 3
     ${src_rows_1}=         FabricDB_tgt.Execute Fabric Query    ${QUERY_TC_1_1}
-    ${status2}=    Set Variable If    ${src_rows} == 0    1    5
-    ${actual2}=    Set Variable    Found ${src_rows} rows in query
-    Run Keyword If    ${src_rows} == 0    Log    No business with country different USA - Step Passed
+    ${status2}=    Set Variable If    ${src_rows_1} == 0    1    5
+    ${actual2}=    Set Variable    Found ${src_rows_1} rows in query check out of USA
+    Run Keyword If    ${src_rows_1} == 0    Log    No business with country different USA - Step Passed
     ...    ELSE    Run Keyword And Continue On Failure    Fail    Exist business out of USA - Step Failed - Actual value: ${src_rows}
 
     # Build step results for TestRail
@@ -112,9 +112,9 @@ ${job_execution_url}
     
     # Step 3
     ${src_rows_1}=         FabricDB_tgt.Execute Fabric Query    ${QUERY_TC_2_1}
-    ${status2}=    Set Variable If    ${src_rows} == 0    1    5
-    ${actual2}=    Set Variable    Found ${src_rows} rows in query
-    Run Keyword If    ${src_rows} == 0    Log    No business with country different USA - Step Passed
+    ${status2}=    Set Variable If    ${src_rows_1} == 0    1    5
+    ${actual2}=    Set Variable    Found ${src_rows_1} rows in query check out of USA
+    Run Keyword If    ${src_rows_1} == 0    Log    No business with country different USA - Step Passed
     ...    ELSE    Run Keyword And Continue On Failure    Fail    Exist business out of USA - Step Failed - Actual value: ${src_rows}
 
     # Build step results for TestRail
