@@ -6,6 +6,9 @@ on:
         description: "List of TCs id in test run -> matching tags in robot"
         required: true
         default: '["TC_sample_12", "TC_sample_22"]'
+      test_run_id:
+        description: "ID of test run to used in "
+        required: true
 
 jobs:
   execute_robot_from_testrail:
@@ -29,8 +32,7 @@ jobs:
         shell: cmd
         run: |
           echo ------------------------------
-          echo "WORKSPACE_ID= $WORKSPACE_ID"
-          echo "DATA_PIPELINE_ID= $DATA_PIPELINE_ID"
+          echo "test run id = ${{ github.event.inputs.test_run_id }}
           echo ------------------------------
           
       - name: Execute Robot
