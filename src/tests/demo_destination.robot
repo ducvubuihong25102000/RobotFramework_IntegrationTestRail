@@ -42,10 +42,12 @@ ${DB}       bk_db
 ${USER}     admin
 ${PASSWORD}  admin
 ${DB_DRIVER}    MySQL ODBC 9.4 Unicode Driver
+${PIPELINE_COND_1}    SELECT * FROM demo.business WHERE is_buyer = 1 AND country = 'USA' 
+${PIPELINE_COND_2}    SELECT * FROM demo.business WHERE is_buyer = 0 AND country = 'USA' 
 ${QUERY_TC_1}    SELECT * FROM moved.business_buyer
 ${QUERY_TC_1_1}    SELECT * FROM [moved].[business_buyer] WHERE [moved].[business_buyer].[country] <> 'USA'
 ${QUERY_TC_2}    SELECT * FROM moved.business_not_buyer
-${QUERY_TC_2_1}    SELECT * FROM [moved].[business_buyer] WHERE [moved].[business_not_buyer].[country] <> 'USA'
+${QUERY_TC_2_1}    SELECT * FROM [moved].[business_not_buyer] WHERE [moved].[business_not_buyer].[country] <> 'USA'
 ${SQL_ENDPOINT}    bkjr54bowwyufnypvcecwxiehm-ixhwdbfmhwqurdd4ya5tmi4nru.datawarehouse.fabric.microsoft.com
 ${DBNAME}          destination
 ${token}
@@ -56,14 +58,16 @@ ${job_execution_url}
 1. [demo->destination] migration business buyer
     [Tags]    TC_139
     Comment   Verify data migration from demo to destination with condition is_buyer = 1 - pipeline 10102025_demo
-    # Step 1. Execute pipeline
+    # Expected value:
+    ${expected}=    FabricDB.Execute Fabric Query    ${PIPELINE_COND_1}
 
+    # Step 1. Execute pipeline
     # Step 2
     ${src_rows}=         FabricDB.Execute Fabric Query    ${QUERY_TC_1}
-    ${status1}=    Set Variable If    ${src_rows} == 38    1    5
+    ${status1}=    Set Variable If    ${src_rows} == ${expected}    1    5
     ${actual1}=    Set Variable    Found ${src_rows} rows in query
-    Run Keyword If    ${src_rows} == 38    Log    Row of [moved].[business_buyer] is 38 - Step Passed
-    ...    ELSE    Run Keyword And Continue On Failure    Fail    Row of [moved].[business_buyer] is not 38 - Step Failed - Actual value: ${src_rows}
+    Run Keyword If    ${src_rows} ==   ${expected}   Log    Row of [moved].[business_buyer] is ${expected}  - Step Passed
+    ...    ELSE    Run Keyword And Continue On Failure    Fail    Row of [moved].[business_buyer] is not ${expected}  - Step Failed - Actual value: ${src_rows}
     
     # Step 3
     ${src_rows_1}=         FabricDB.Execute Fabric Query    ${QUERY_TC_1_1}
@@ -84,13 +88,17 @@ ${job_execution_url}
 2. [demo->destination] migration business not buyer
     [Tags]    TC_140
     Comment   Verify data migration from demo to destination with condition is_buyer = 0 - pipeline 10102025_demo
+
+    # Expected value:
+    ${expected}=    FabricDB.Execute Fabric Query    ${PIPELINE_COND_2}
+
     # Step 1. Execute pipeline
     # Step 2
     ${src_rows}=         FabricDB.Execute Fabric Query    ${QUERY_TC_2}
-    ${status1}=    Set Variable If    ${src_rows} == 12    1    5
+    ${status1}=    Set Variable If    ${src_rows} == ${expected}    1    5
     ${actual1}=    Set Variable    Found ${src_rows} rows in query
-    Run Keyword If    ${src_rows} == 12    Log    Row of [moved].[business_not_buyer] is 12 - Step Passed
-    ...    ELSE  Run Keyword And Continue On Failure  Fail    [moved].[business_not_buyer] is not 12 - Step Failed - Actual value: ${src_rows}
+    Run Keyword If    ${src_rows} == ${expected}    Log    Row of [moved].[business_not_buyer] is ${expected} - Step Passed
+    ...    ELSE  Run Keyword And Continue On Failure  Fail    [moved].[business_not_buyer] is not ${expected} - Step Failed - Actual value: ${src_rows}
     
     # Step 3
     ${src_rows_1}=         FabricDB.Execute Fabric Query    ${QUERY_TC_2_1}
