@@ -19,7 +19,8 @@ jobs:
       DATA_PIPELINE_ID: ${{ vars.DATA_PIPELINE_ID }}
       TESTRAIL_URL: ${{ vars.TESTRAIL_URL }}
       tr_usr: ${{ vars.tr_usr }}
-      tr_pwd: ${{ vars.tr_pwd }}  
+      tr_pwd: ${{ vars.tr_pwd }}
+      test_run_id: ${{ github.event.inputs.test_run_id }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
