@@ -7,4 +7,4 @@ Library    ../resources/temp.py    WITH NAME    TempLib
 *** Test Cases ***
 1. Verify Pipeline 1 happy case
     [Tags]    TC_141
-    TempLib.Get Env Variable    var_name="test_run_id"
+    TempLib.Get Env Variable    var_name=test_run_id
