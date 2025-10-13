@@ -5,3 +5,4 @@ TC_sample_2,demo,tests\demo.robot
 TC_sample_4,demo,.tests\demo.robot
 TC_139,demo_destination,tests\demo_destination.robot
 TC_140,demo_destination,tests\demo_destination.robot
+TC_141,temp,tests\temp.robot
