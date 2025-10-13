@@ -9,5 +9,6 @@ class temp:
         self.conn = None
 
     def get_env_variable(self, var_name):
+        print(var_name)
         test_run = os.getenv(var_name)
         print(f"Test Run ID: {test_run}")
