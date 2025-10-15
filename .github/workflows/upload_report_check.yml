@@ -1,0 +1,58 @@
+name: Check publish test result
+on:
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: "List of TCs id in test run -> matching tags in robot"
+        required: true
+        default: '["HELLO_WORLD"]'
+
+jobs:
+  Check_publish_test_result:
+    runs-on: [self-hosted, Windows, X64]
+    environment: DEV
+    env:
+      WORKSPACE_ID: ${{ vars.WORKSPACE_ID }}
+      DATA_PIPELINE_ID: ${{ vars.DATA_PIPELINE_ID }}
+      TESTRAIL_URL: ${{ vars.TESTRAIL_URL }}
+      tr_usr: ${{ vars.tr_usr }}
+      tr_pwd: ${{ vars.tr_pwd }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+          
+      - name: Execute Robot
+        shell: cmd
+        env:
+          WORK_TOKEN: ${{ secrets.GIT_TOKEN }}
+          TZ: Asia/Ho_Chi_Minh
+        run: |
+          echo "Tags input: ${{ github.event.inputs.tags }}"                  
+          python .\src\server.py '${{ github.event.inputs.tags }}'
+          
+      - name: Upload Robot Framework results
+        uses: actions/upload-artifact@v4
+        with:
+          name: robot-test-results
+          path: src/results
+          retention-days: 3
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{steps.deployment.outputs.page_url}}
+    runs-on: ubuntu # Need to run in github hosted
+    needs: Check_publish_test_result
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+      - name: display URL of test result
+        shell: cmd
+        run: |
+          echo ${{steps.deployment.outputs.page_url}}     
+        
